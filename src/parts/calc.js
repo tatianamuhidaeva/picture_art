@@ -1,6 +1,6 @@
 //calc
 function calc() {
-  var size = document.getElementById("size"),
+  let size = document.getElementById("size"),
   material = document.getElementById("material"),
   options = document.getElementById("options"),
   promocode = document.getElementsByClassName("promocode")[0],

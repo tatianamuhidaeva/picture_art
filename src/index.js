@@ -9,7 +9,8 @@ window.addEventListener('DOMContentLoaded', function () {
     popupGift = require('./parts/popupGift.js'),
     popupConsultation = require('./parts/popupConsultation.js'),
     moreStyles = require('./parts/moreStyles.js'),
-    calc = require('./parts/calc.js');
+    calc = require('./parts/calc.js'),
+    filterPhoto = require('./parts/filterPhoto.js');
 
 
   requestAnimationFrame();
@@ -19,4 +20,5 @@ window.addEventListener('DOMContentLoaded', function () {
   popupConsultation();
   moreStyles();
   calc();
+  filterPhoto();
 });

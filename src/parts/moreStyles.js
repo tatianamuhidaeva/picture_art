@@ -1,6 +1,6 @@
 //moreStyles
 function moreStyles() {
-  var wrap = document.querySelector("#styles"),
+  let wrap = document.querySelector("#styles"),
   cards = wrap.querySelectorAll(".styles-2"),
   btn = wrap.querySelector("button");
 
