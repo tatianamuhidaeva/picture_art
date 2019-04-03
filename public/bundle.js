@@ -1550,10 +1550,20 @@ window.addEventListener('DOMContentLoaded', function () {
   __webpack_require__(/*! formdata-polyfill */ "../node_modules/formdata-polyfill/formdata.min.js");
 
   var requestAnimationFrame = __webpack_require__(/*! ./parts/RequestAnimationFrame.js */ "./parts/RequestAnimationFrame.js"),
-      mainSlider = __webpack_require__(/*! ./parts/mainSlider.js */ "./parts/mainSlider.js");
+      mainSlider = __webpack_require__(/*! ./parts/mainSlider.js */ "./parts/mainSlider.js"),
+      popupDesign = __webpack_require__(/*! ./parts/popupDesign.js */ "./parts/popupDesign.js"),
+      popupGift = __webpack_require__(/*! ./parts/popupGift.js */ "./parts/popupGift.js"),
+      popupConsultation = __webpack_require__(/*! ./parts/popupConsultation.js */ "./parts/popupConsultation.js"),
+      moreStyles = __webpack_require__(/*! ./parts/moreStyles.js */ "./parts/moreStyles.js"),
+      calc = __webpack_require__(/*! ./parts/calc.js */ "./parts/calc.js");
 
   requestAnimationFrame();
   mainSlider();
+  popupDesign();
+  popupGift();
+  popupConsultation();
+  moreStyles();
+  calc();
 });
 
 /***/ }),
@@ -1598,6 +1608,44 @@ module.exports = requestAnimationFrame;
 
 /***/ }),
 
+/***/ "./parts/calc.js":
+/*!***********************!*\
+  !*** ./parts/calc.js ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//calc
+function calc() {
+  var size = document.getElementById("size"),
+      material = document.getElementById("material"),
+      options = document.getElementById("options"),
+      promocode = document.getElementsByClassName("promocode")[0],
+      res = document.getElementsByClassName("calc-price ")[0],
+      s = 0;
+
+  function calcFunc() {
+    s = Math.round(+size.value * +material.value + +options.value);
+
+    if (size.value == "" || material.value == "") {
+      res.innerHTML = "Пожалуйста, выберите размер и материал картины";
+    } else if (promocode.value == "IWANTPOPART") {
+      res.innerHTML = s - .3 * s;
+    } else {
+      res.innerHTML = s;
+    }
+  }
+
+  size.addEventListener("change", calcFunc);
+  material.addEventListener("change", calcFunc);
+  options.addEventListener("change", calcFunc);
+  promocode.addEventListener("input", calcFunc);
+}
+
+module.exports = calc;
+
+/***/ }),
+
 /***/ "./parts/mainSlider.js":
 /*!*****************************!*\
   !*** ./parts/mainSlider.js ***!
@@ -1630,6 +1678,151 @@ function mainSlider() {
 }
 
 module.exports = mainSlider;
+
+/***/ }),
+
+/***/ "./parts/moreStyles.js":
+/*!*****************************!*\
+  !*** ./parts/moreStyles.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//moreStyles
+function moreStyles() {
+  var wrap = document.querySelector("#styles"),
+      cards = wrap.querySelectorAll(".styles-2"),
+      btn = wrap.querySelector("button");
+  btn.addEventListener("click", function () {
+    cards.forEach(function (card) {
+      card.classList.toggle("hidden-lg");
+      card.classList.toggle("hidden-md");
+      card.classList.toggle("hidden-sm");
+      card.classList.toggle("hidden-xs");
+      card.classList.toggle("col-sm-3");
+      card.classList.toggle("col-sm-offset-0");
+      card.classList.toggle("col-xs-10");
+      card.classList.toggle("col-xs-offset-1");
+    });
+    btn.style.display = "none";
+  });
+}
+
+module.exports = moreStyles;
+
+/***/ }),
+
+/***/ "./parts/popupConsultation.js":
+/*!************************************!*\
+  !*** ./parts/popupConsultation.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//popupConsultation
+function popupConsultation() {
+  var btns = document.querySelectorAll(".button-consultation"),
+      popup = document.querySelector(".popup-consultation"),
+      close = popup.querySelector(".popup-close");
+
+  function closePopup() {
+    popup.style.display = "none";
+    document.body.style.overflow = "";
+  }
+
+  btns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      popup.style.display = "block";
+      document.body.style.overflow = "hidden";
+    });
+  });
+  close.addEventListener("click", function () {
+    closePopup();
+  });
+  popup.addEventListener("click", function (e) {
+    if (e.target.closest(".popup-content, .popup_close") === null) {
+      closePopup();
+    }
+  });
+}
+
+module.exports = popupConsultation;
+
+/***/ }),
+
+/***/ "./parts/popupDesign.js":
+/*!******************************!*\
+  !*** ./parts/popupDesign.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//popupDesign
+function popupDesign() {
+  var btns = document.querySelectorAll(".button-design"),
+      popup = document.querySelector(".popup-design"),
+      close = popup.querySelector(".popup-close");
+
+  function closePopup() {
+    popup.style.display = "none";
+    document.body.style.overflow = "";
+  }
+
+  btns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      popup.style.display = "block";
+      document.body.style.overflow = "hidden";
+    });
+  });
+  close.addEventListener("click", function () {
+    closePopup();
+  });
+  popup.addEventListener("click", function (e) {
+    if (e.target.closest(".popup-content, .popup_close") === null) {
+      closePopup();
+    }
+  });
+}
+
+module.exports = popupDesign;
+
+/***/ }),
+
+/***/ "./parts/popupGift.js":
+/*!****************************!*\
+  !*** ./parts/popupGift.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//popupGift
+function popupGift() {
+  var gift = document.querySelector(".fixed-gift"),
+      popup = document.querySelector(".popup-gift"),
+      close = popup.querySelector(".popup-close");
+
+  function closePopup() {
+    popup.style.display = "none";
+    document.body.style.overflow = "";
+    gift.style.display = "block";
+  }
+
+  gift.addEventListener("click", function () {
+    popup.style.display = "block";
+    gift.style.display = "none";
+    document.body.style.overflow = "hidden";
+  });
+  close.addEventListener("click", function () {
+    closePopup();
+  });
+  popup.addEventListener("click", function (e) {
+    if (e.target.closest(".popup-dialog, .popup_close") === null) {
+      closePopup();
+    }
+  });
+}
+
+module.exports = popupGift;
 
 /***/ })
 
