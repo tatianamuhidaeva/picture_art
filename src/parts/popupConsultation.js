@@ -4,6 +4,9 @@ function popupConsultation() {
     popup = document.querySelector(".popup-consultation"),
     close = popup.querySelector(".popup-close");
 
+  popup.classList.add('animated');
+  popup.classList.add('fadeIn');
+
   function closePopup() {
     popup.style.display = "none";
     document.body.style.overflow = "";

@@ -4,6 +4,9 @@ function popupGift() {
     popup = document.querySelector(".popup-gift"),
     close = popup.querySelector(".popup-close");
 
+  popup.classList.add('animated');
+  popup.classList.add('fadeIn');
+
   function closePopup() {
     popup.style.display = "none";
     document.body.style.overflow = "";
@@ -11,12 +14,12 @@ function popupGift() {
 
   }
 
-    gift.addEventListener("click", function () {
-      popup.style.display = "block";
-      gift.style.display = "none";
-      document.body.style.overflow = "hidden";
-    });
-  
+  gift.addEventListener("click", function () {
+    popup.style.display = "block";
+    gift.style.display = "none";
+    document.body.style.overflow = "hidden";
+  });
+
   close.addEventListener("click", function () {
     closePopup();
   })

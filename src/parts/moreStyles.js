@@ -3,7 +3,10 @@ function moreStyles() {
   let wrap = document.querySelector("#styles"),
   cards = wrap.querySelectorAll(".styles-2"),
   btn = wrap.querySelector("button");
-
+  cards.forEach((card) => {
+    card.classList.add("animated");
+    card.classList.add("fadeInUp");
+  });
   btn.addEventListener("click", function () {
     cards.forEach((card) => {
       card.classList.toggle("hidden-lg");

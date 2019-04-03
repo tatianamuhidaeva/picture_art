@@ -10,7 +10,9 @@ window.addEventListener('DOMContentLoaded', function () {
     popupConsultation = require('./parts/popupConsultation.js'),
     moreStyles = require('./parts/moreStyles.js'),
     calc = require('./parts/calc.js'),
-    filterPhoto = require('./parts/filterPhoto.js');
+    filterPhoto = require('./parts/filterPhoto.js'),
+    feedbackSlider = require('./parts/feedbackSlider.js'),
+    accordion = require('./parts/accordion.js');
 
 
   requestAnimationFrame();
@@ -21,4 +23,6 @@ window.addEventListener('DOMContentLoaded', function () {
   moreStyles();
   calc();
   filterPhoto();
+  feedbackSlider();
+  accordion();
 });
