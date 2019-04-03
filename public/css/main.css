@@ -1071,8 +1071,11 @@ img{
     display: block;
 }
 
-.active-style {
-    color: red;
+.often-questions  p.active-style span{
+    color: #E950D7;
+    font-weight: 900;
+    text-decoration: none;
+    border: 0;
 }
 
 .often-questions .accordion-heading span {
