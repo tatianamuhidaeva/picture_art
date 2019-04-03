@@ -1558,7 +1558,9 @@ window.addEventListener('DOMContentLoaded', function () {
       calc = __webpack_require__(/*! ./parts/calc.js */ "./parts/calc.js"),
       filterPhoto = __webpack_require__(/*! ./parts/filterPhoto.js */ "./parts/filterPhoto.js"),
       feedbackSlider = __webpack_require__(/*! ./parts/feedbackSlider.js */ "./parts/feedbackSlider.js"),
-      accordion = __webpack_require__(/*! ./parts/accordion.js */ "./parts/accordion.js");
+      accordion = __webpack_require__(/*! ./parts/accordion.js */ "./parts/accordion.js"),
+      burger = __webpack_require__(/*! ./parts/burger.js */ "./parts/burger.js"),
+      anySize = __webpack_require__(/*! ./parts/anySize.js */ "./parts/anySize.js");
 
   requestAnimationFrame();
   mainSlider();
@@ -1570,6 +1572,8 @@ window.addEventListener('DOMContentLoaded', function () {
   filterPhoto();
   feedbackSlider();
   accordion();
+  burger();
+  anySize();
 });
 
 /***/ }),
@@ -1644,6 +1648,94 @@ function accordion() {
 }
 
 module.exports = accordion;
+
+/***/ }),
+
+/***/ "./parts/anySize.js":
+/*!**************************!*\
+  !*** ./parts/anySize.js ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//anySize
+function anySize() {
+  var blocks = document.querySelectorAll(".sizes-block");
+
+  function withPic(block) {
+    var img = block.querySelector('img');
+    img.src = img.src.slice(0, -4) + "-1.png";
+  }
+
+  function withoutPic(block) {
+    var img = block.querySelector('img');
+    img.src = img.src.slice(0, -6) + ".png";
+  }
+
+  blocks.forEach(function (block) {
+    if (screen.width < 768) {
+      block.addEventListener('click', function () {
+        withPic(block);
+      });
+      document.addEventListener("click", function (e) {
+        if (e.target.closest(".block") === null) {
+          withoutPic(block);
+        }
+      });
+    } else {
+      block.addEventListener('mouseover', function () {
+        withPic(block);
+      });
+      block.addEventListener('mouseout', function () {
+        withoutPic(block);
+      });
+    }
+  });
+}
+
+module.exports = anySize;
+
+/***/ }),
+
+/***/ "./parts/burger.js":
+/*!*************************!*\
+  !*** ./parts/burger.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//burger
+function burger() {
+  var menu = document.querySelector(".burger-menu"),
+      burger = document.querySelector(".burger");
+  burger.style.display = "none";
+
+  function menuAdapt() {
+    if (screen.width < 768) {
+      menu.style.display = "none";
+      burger.style.display = "block";
+    }
+  }
+
+  menuAdapt();
+  burger.addEventListener("click", function () {
+    if (menu.style.display == "none") {
+      menu.style.display = "block";
+    } else {
+      menu.style.display = "none";
+    }
+  });
+  window.addEventListener('resize', function () {
+    if (screen.width < 768) {
+      burger.style.display = "block";
+    } else {
+      menu.style.display = "none";
+      burger.style.display = "none";
+    }
+  });
+}
+
+module.exports = burger;
 
 /***/ }),
 
@@ -1911,9 +2003,16 @@ module.exports = moreStyles;
 function popupConsultation() {
   var btns = document.querySelectorAll(".button-consultation"),
       popup = document.querySelector(".popup-consultation"),
+      popupDesign = document.querySelector(".popup-design"),
+      popupGift = document.querySelector(".popup-gift"),
       close = popup.querySelector(".popup-close");
   popup.classList.add('animated');
   popup.classList.add('fadeIn');
+
+  function openPopup() {
+    popup.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
 
   function closePopup() {
     popup.style.display = "none";
@@ -1922,8 +2021,7 @@ function popupConsultation() {
 
   btns.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      popup.style.display = "block";
-      document.body.style.overflow = "hidden";
+      openPopup();
     });
   });
   close.addEventListener("click", function () {
@@ -1934,6 +2032,15 @@ function popupConsultation() {
       closePopup();
     }
   });
+  var timer = setTimeout(function () {
+    var cons = getComputedStyle(popup).display,
+        des = getComputedStyle(popupDesign).display,
+        gift = getComputedStyle(popupGift).display;
+
+    if (cons == "none" && des == "none" && gift == "none") {
+      openPopup();
+    }
+  }, 60000);
 }
 
 module.exports = popupConsultation;
@@ -1992,6 +2099,8 @@ function popupGift() {
   var gift = document.querySelector(".fixed-gift"),
       popup = document.querySelector(".popup-gift"),
       close = popup.querySelector(".popup-close");
+  var pressedBtn = false,
+      btns = document.querySelectorAll(".button-design, .button-consultation, .fixed-gift");
   popup.classList.add('animated');
   popup.classList.add('fadeIn');
 
@@ -2001,10 +2110,15 @@ function popupGift() {
     gift.style.display = "block";
   }
 
-  gift.addEventListener("click", function () {
+  function openPopup() {
+    pressedBtn = true;
     popup.style.display = "block";
     gift.style.display = "none";
     document.body.style.overflow = "hidden";
+  }
+
+  gift.addEventListener("click", function () {
+    openPopup();
   });
   close.addEventListener("click", function () {
     closePopup();
@@ -2014,21 +2128,18 @@ function popupGift() {
       closePopup();
     }
   });
+  btns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      pressedBtn = true;
+    });
+  });
 
   window.onscroll = function () {
-    // if (window.offsetHeight + window.scrollTop >= window.scrollHeight) {
-    //   popup.style.display = "block";
-    //   gift.style.display = "none";
-    //   document.body.style.overflow = "hidden";
-    // }
-    var maxScroll = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight, document.body.clientHeight, document.documentElement.clientHeight);
+    var scrollHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight, document.body.clientHeight, document.documentElement.clientHeight);
 
-    if (maxScroll <= window.scrollY + 1 && window.scrollY + 1 >= n - innerHeight) {
-      console.log("[f"); //   t.style.display = "block"; 
-      //   e.style.display = "none";
+    if (!pressedBtn && window.pageYOffset + document.documentElement.clientHeight >= scrollHeight) {
+      openPopup();
     }
-
-    ;
   };
 }
 

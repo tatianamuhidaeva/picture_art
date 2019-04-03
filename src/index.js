@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   require('es6-promise').polyfill();
   require('formdata-polyfill');
+  
   let requestAnimationFrame = require('./parts/RequestAnimationFrame.js'),
     mainSlider = require('./parts/mainSlider.js'),
     popupDesign = require('./parts/popupDesign.js'),
@@ -12,7 +13,9 @@ window.addEventListener('DOMContentLoaded', function () {
     calc = require('./parts/calc.js'),
     filterPhoto = require('./parts/filterPhoto.js'),
     feedbackSlider = require('./parts/feedbackSlider.js'),
-    accordion = require('./parts/accordion.js');
+    accordion = require('./parts/accordion.js'),
+    burger = require('./parts/burger.js'),
+    anySize = require('./parts/anySize.js');
 
 
   requestAnimationFrame();
@@ -25,4 +28,6 @@ window.addEventListener('DOMContentLoaded', function () {
   filterPhoto();
   feedbackSlider();
   accordion();
+  burger();
+  anySize();
 });
