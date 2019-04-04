@@ -13,7 +13,6 @@ function popupGift() {
   function closePopup() {
     popup.style.display = "none";
     document.body.style.overflow = "";
-    gift.style.display = "block";
   }
 
   function openPopup() {

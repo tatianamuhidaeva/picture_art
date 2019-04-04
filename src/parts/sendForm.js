@@ -21,7 +21,7 @@ function sendForm() {
 
     let obj = {};
     data.forEach(function (value, key) {
-       obj[key] = value;
+      obj[key] = value;
     });
     let json = JSON.stringify(obj);
 
@@ -45,21 +45,27 @@ function sendForm() {
 
       postData()
         .then((state) => {
-          if (state < 4){
+          if (state < 4) {
             status.innerHTML = mess.loading;
           } else {
-            if (event.target.parentElement.parentElement.parentElement.classList.contains("consultation")){
-              status.innerHTML = mess.success;
-            } else {
-              event.target.innerHTML = mess.success;
+            status.innerHTML = mess.success;
+            if (!event.target.parentElement.parentElement.parentElement.classList.contains("consultation")) {
+              for(let i = 0; i < event.target.children.length; i++){
+                if(event.target.children[i] != status){
+                  event.target.children[i].style.display = "none";
+                }
+              }
             }
           }
         })
         .catch(() => {
-          if (event.target.parentElement.parentElement.parentElement.classList.contains("consultation")){
-            status.innerHTML = mess.failure;
-          } else {
-            event.target.innerHTML = mess.failure;
+          status.innerHTML = mess.failure;
+          if (!event.target.parentElement.parentElement.parentElement.classList.contains("consultation")) {
+            for(let i = 0; i < event.target.children.length; i++){
+              if(event.target.children[i] != status){
+                event.target.children[i].style.display = "none";
+              }
+            }
           }
         })
         .then(clearInput);
@@ -82,8 +88,8 @@ function sendForm() {
   });
 
 
-    maskTel('input[name="phone"]', '+7 (xxx) xxx xx xx', false);
-    maskText('input[name="name"], input[name="message"], textarea');
+  maskTel('input[name="phone"]', '+7 (xxx) xxx xx xx', false);
+  maskText('input[name="name"], input[name="message"], textarea');
 
   function maskText(selector) {
     let inputs = document.querySelectorAll(selector);

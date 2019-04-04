@@ -2008,13 +2008,20 @@ function popupConsultation() {
       popup = document.querySelector(".popup-consultation"),
       popupDesign = document.querySelector(".popup-design"),
       popupGift = document.querySelector(".popup-gift"),
-      close = popup.querySelector(".popup-close");
+      close = popup.querySelector(".popup-close"),
+      elemsIn = popup.querySelector("form").children;
   popup.classList.add('animated');
   popup.classList.add('fadeIn');
 
   function openPopup() {
     popup.style.display = "block";
     document.body.style.overflow = "hidden";
+
+    for (var i = 0; i < elemsIn.length; i++) {
+      if (elemsIn[i] != status) {
+        elemsIn[i].style.display = "block";
+      }
+    }
   }
 
   function closePopup() {
@@ -2075,13 +2082,25 @@ module.exports = popupConsultation;
 function popupDesign() {
   var btns = document.querySelectorAll(".button-design"),
       popup = document.querySelector(".popup-design"),
-      close = popup.querySelector(".popup-close");
+      close = popup.querySelector(".popup-close"),
+      elemsIn = popup.querySelector("form").children;
   popup.classList.add('animated');
   popup.classList.add('fadeIn');
 
   function closePopup() {
     popup.style.display = "none";
     document.body.style.overflow = "";
+  }
+
+  function openPopup() {
+    popup.style.display = "block";
+    document.body.style.overflow = "hidden";
+
+    for (var i = 0; i < elemsIn.length; i++) {
+      if (elemsIn[i] != status) {
+        elemsIn[i].style.display = "block";
+      }
+    }
   }
 
   function parentsOfElements(elem, cl) {
@@ -2100,8 +2119,7 @@ function popupDesign() {
 
   btns.forEach(function (btn) {
     btn.addEventListener("click", function () {
-      popup.style.display = "block";
-      document.body.style.overflow = "hidden";
+      openPopup();
     });
   });
   close.addEventListener("click", function () {
@@ -2138,7 +2156,6 @@ function popupGift() {
   function closePopup() {
     popup.style.display = "none";
     document.body.style.overflow = "";
-    gift.style.display = "block";
   }
 
   function openPopup() {
@@ -2246,17 +2263,25 @@ function sendForm() {
         if (state < 4) {
           status.innerHTML = mess.loading;
         } else {
-          if (event.target.parentElement.parentElement.parentElement.classList.contains("consultation")) {
-            status.innerHTML = mess.success;
-          } else {
-            event.target.innerHTML = mess.success;
+          status.innerHTML = mess.success;
+
+          if (!event.target.parentElement.parentElement.parentElement.classList.contains("consultation")) {
+            for (var i = 0; i < event.target.children.length; i++) {
+              if (event.target.children[i] != status) {
+                event.target.children[i].style.display = "none";
+              }
+            }
           }
         }
       }).catch(function () {
-        if (event.target.parentElement.parentElement.parentElement.classList.contains("consultation")) {
-          status.innerHTML = mess.failure;
-        } else {
-          event.target.innerHTML = mess.failure;
+        status.innerHTML = mess.failure;
+
+        if (!event.target.parentElement.parentElement.parentElement.classList.contains("consultation")) {
+          for (var i = 0; i < event.target.children.length; i++) {
+            if (event.target.children[i] != status) {
+              event.target.children[i].style.display = "none";
+            }
+          }
         }
       }).then(clearInput);
     });
