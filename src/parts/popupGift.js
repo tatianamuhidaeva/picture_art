@@ -22,6 +22,18 @@ function popupGift() {
     gift.style.display = "none";
     document.body.style.overflow = "hidden";
   }
+
+  function parentsOfElements(elem, cl){
+    let curr = elem;
+    while (curr != null){
+      if (curr.classList.contains(cl)){
+        return true;
+      }
+      curr = curr.parentElement;
+    }
+    return false;
+  }
+
   gift.addEventListener("click", function () {
     openPopup();
   });
@@ -30,7 +42,8 @@ function popupGift() {
     closePopup();
   })
   popup.addEventListener("click", function (e) {
-    if (e.target.closest(".popup-dialog, .popup_close") === null) {
+    if (!parentsOfElements(e.target, "popup-content") &&
+    !e.target.classList.contains("popup_close")) {
       closePopup();
     }
   });

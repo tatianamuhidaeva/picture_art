@@ -5,7 +5,7 @@ function burger() {
   burger.style.display = "none";
 
   function menuAdapt() {
-    if (screen.width < 768) {
+    if (screen.width < 769) {
       menu.style.display = "none";
       burger.style.display = "block";
     }
@@ -19,7 +19,7 @@ function burger() {
     }
   });
   window.addEventListener('resize', function () {
-    if (screen.width < 768) {
+    if (screen.width < 769) {
       burger.style.display = "block";
     } else {
       menu.style.display = "none";
