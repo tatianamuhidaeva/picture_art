@@ -15,7 +15,8 @@ window.addEventListener('DOMContentLoaded', function () {
     feedbackSlider = require('./parts/feedbackSlider.js'),
     accordion = require('./parts/accordion.js'),
     burger = require('./parts/burger.js'),
-    anySize = require('./parts/anySize.js');
+    anySize = require('./parts/anySize.js'),
+    sendForm = require('./parts/sendForm.js');
 
 
   requestAnimationFrame();
@@ -30,4 +31,5 @@ window.addEventListener('DOMContentLoaded', function () {
   accordion();
   burger();
   anySize();
+  sendForm();
 });

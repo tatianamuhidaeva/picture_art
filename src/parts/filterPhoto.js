@@ -22,9 +22,10 @@ function filterPhoto() {
       mark.style.display = "none";
       mark.classList.remove("animated");
       mark.classList.remove("fadeIn");
-      no.classList.remove("animated");
-      no.classList.remove("fadeIn");
     });
+    no.style.display = "none";
+    no.classList.remove("animated");
+    no.classList.remove("fadeIn");
     if (markType != null){
       markType.forEach((mark) => {
         mark.style.display = "block";

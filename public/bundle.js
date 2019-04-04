@@ -1560,7 +1560,8 @@ window.addEventListener('DOMContentLoaded', function () {
       feedbackSlider = __webpack_require__(/*! ./parts/feedbackSlider.js */ "./parts/feedbackSlider.js"),
       accordion = __webpack_require__(/*! ./parts/accordion.js */ "./parts/accordion.js"),
       burger = __webpack_require__(/*! ./parts/burger.js */ "./parts/burger.js"),
-      anySize = __webpack_require__(/*! ./parts/anySize.js */ "./parts/anySize.js");
+      anySize = __webpack_require__(/*! ./parts/anySize.js */ "./parts/anySize.js"),
+      sendForm = __webpack_require__(/*! ./parts/sendForm.js */ "./parts/sendForm.js");
 
   requestAnimationFrame();
   mainSlider();
@@ -1574,6 +1575,7 @@ window.addEventListener('DOMContentLoaded', function () {
   accordion();
   burger();
   anySize();
+  sendForm();
 });
 
 /***/ }),
@@ -1862,9 +1864,10 @@ function filterPhoto() {
       mark.style.display = "none";
       mark.classList.remove("animated");
       mark.classList.remove("fadeIn");
-      no.classList.remove("animated");
-      no.classList.remove("fadeIn");
     });
+    no.style.display = "none";
+    no.classList.remove("animated");
+    no.classList.remove("fadeIn");
 
     if (markType != null) {
       markType.forEach(function (mark) {
@@ -2144,6 +2147,136 @@ function popupGift() {
 }
 
 module.exports = popupGift;
+
+/***/ }),
+
+/***/ "./parts/sendForm.js":
+/*!***************************!*\
+  !*** ./parts/sendForm.js ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//sendForm
+function sendForm() {
+  var mess = {
+    loading: "Загрузка...",
+    success: "Спасибо! Скоро с вами свяжемся!",
+    failure: "Что-то пошло не так..."
+  };
+  var forms = document.querySelectorAll("form[action='mailer/smart.php']"),
+      formCons = forms[0],
+      formPopCons = forms[1],
+      formPopDesign = forms[2],
+      status = document.createElement("div");
+  status.classList.add("status");
+
+  function listenerForm(event) {
+    event.preventDefault();
+    event.target.appendChild(status);
+    var input = event.target.querySelectorAll('input');
+    var request = new XMLHttpRequest();
+    request.open("POST", "./server.php");
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    var data = new FormData(event.target);
+    request.send(data);
+    request.addEventListener('readystatechange', function () {
+      function postData() {
+        var promise = new Promise(function (resolve, reject) {
+          if (request.readyState < 4) {
+            resolve(request.readyState);
+          } else if (request.readyState == 4 && request.status == 200) {
+            resolve(request.readyState);
+          } else {
+            reject();
+          }
+        });
+        return promise;
+      } //end postData()
+
+
+      postData().then(function (state) {
+        if (state < 4) {
+          status.innerHTML = mess.loading;
+        } else {
+          if (event.target.parentElement.parentElement.parentElement.classList.contains("consultation")) {
+            status.innerHTML = mess.success;
+          } else {
+            event.target.innerHTML = mess.success;
+          }
+        }
+      }).catch(function () {
+        if (event.target.parentElement.parentElement.parentElement.classList.contains("consultation")) {
+          status.innerHTML = mess.failure;
+        } else {
+          event.target.innerHTML = mess.failure;
+        }
+      }).then(clearInput);
+    });
+
+    function clearInput() {
+      for (var i = 0; i < input.length; i++) {
+        input[i].value = "";
+      }
+    }
+  }
+
+  formCons.addEventListener("submit", function (event) {
+    listenerForm(event);
+  });
+  formPopCons.addEventListener("submit", function (event) {
+    listenerForm(event);
+  });
+  formPopDesign.addEventListener("submit", function (event) {
+    listenerForm(event);
+  });
+  maskTel('input[name="phone"]', '+7 (xxx) xxx xx xx', false);
+  maskText('input[name="name"], input[name="message"], textarea');
+
+  function maskText(selector) {
+    var inputs = document.querySelectorAll(selector);
+    inputs.forEach(function (input) {
+      input.addEventListener('keypress', function (e) {
+        if (e.key.match(/[^а-яё ]/ig)) {
+          e.preventDefault();
+        }
+      });
+    });
+  } //PhoneMask
+
+
+  function maskTel(selector, mask, placeholder) {
+    var XCHAR = "x";
+    var tels = document.querySelectorAll(selector);
+    tels.forEach(function (tel) {
+      function autoInsert(mask, pos) {
+        for (var i = pos; i < mask.length; i++) {
+          if (mask[i] != XCHAR) {
+            tel.value += mask[i];
+          } else {
+            break;
+          }
+        }
+      }
+
+      if (placeholder) {
+        tel.setAttribute('placeholder', mask.replace(new RegExp(XCHAR, 'g'), '_'));
+      }
+
+      tel.addEventListener('keypress', function (e) {
+        var place = tel.value.length;
+        autoInsert(mask, place);
+        place = tel.value.length;
+
+        if (e.key != mask[place] && mask[place] != XCHAR || mask[place] == XCHAR && e.key.match(/\D/)) {
+          e.preventDefault();
+        }
+      });
+    });
+  }
+}
+
+module.exports = sendForm;
 
 /***/ })
 
