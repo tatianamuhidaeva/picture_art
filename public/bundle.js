@@ -2217,11 +2217,16 @@ function sendForm() {
     event.preventDefault();
     event.target.appendChild(status);
     var input = event.target.querySelectorAll('input');
+    var data = new FormData(event.target);
+    var obj = {};
+    data.forEach(function (value, key) {
+      obj[key] = value;
+    });
+    var json = JSON.stringify(obj);
     var request = new XMLHttpRequest();
     request.open("POST", "./server.php");
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    var data = new FormData(event.target);
-    request.send(data);
+    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    request.send(json);
     request.addEventListener('readystatechange', function () {
       function postData() {
         var promise = new Promise(function (resolve, reject) {

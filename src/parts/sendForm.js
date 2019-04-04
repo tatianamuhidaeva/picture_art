@@ -17,11 +17,18 @@ function sendForm() {
     event.preventDefault();
     event.target.appendChild(status);
     let input = event.target.querySelectorAll('input');
-    let request = new XMLHttpRequest;
-    request.open("POST", "./server.php");
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     let data = new FormData(event.target);
-    request.send(data);
+
+    let obj = {};
+    data.forEach(function (value, key) {
+       obj[key] = value;
+    });
+    let json = JSON.stringify(obj);
+
+    let request = new XMLHttpRequest();
+    request.open("POST", "./server.php");
+    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    request.send(json);
     request.addEventListener('readystatechange', function () {
       function postData() {
         let promise = new Promise(function (resolve, reject) {
